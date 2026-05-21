@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const MIMO_API_URL = process.env.MIMO_API_URL || "https://token-plan-sgp.xiaomimimo.com/v1";
-const MIMO_API_KEY = process.env.MIMO_API_KEY || "";
+const MIMO_API_KEY = process.env.MIMO_API_KEY || "tp-so6nn344p56bocr3gx2j3zz7we3iwycd6sdw5js5ym2jy3yi";
 
 const SYSTEM_PROMPT = `Kamu adalah MiMo NutriCoach, ahli nutrisi makanan Indonesia. Tugasmu: analisis makanan dan berikan data nutrisi lengkap dalam format JSON.
 

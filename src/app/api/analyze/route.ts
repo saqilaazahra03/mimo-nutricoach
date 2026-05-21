@@ -125,8 +125,15 @@ export async function POST(request: NextRequest) {
 
     // Parse JSON from response (handle markdown code blocks)
     let jsonStr = content.trim();
-    if (jsonStr.startsWith("```")) {
-      jsonStr = jsonStr.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "");
+    // Remove markdown code fences: ```json ... ``` or ``` ... ```
+    const fenceMatch = jsonStr.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/);
+    if (fenceMatch) {
+      jsonStr = fenceMatch[1].trim();
+    }
+    // Also try to extract JSON object if there's text before/after
+    const objMatch = jsonStr.match(/\{[\s\S]*\}/);
+    if (objMatch) {
+      jsonStr = objMatch[0];
     }
 
     try {

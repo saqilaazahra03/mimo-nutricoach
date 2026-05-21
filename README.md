@@ -5,6 +5,7 @@
 [![Powered by MiMo](https://img.shields.io/badge/Powered%20by-MiMo-blue)](https://mimo.xiaomi.com/)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
+[![Vercel](https://img.shields.io/badge/Live_Demo-Vercel-black)](https://mimo-nutricoach.vercel.app)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 ---

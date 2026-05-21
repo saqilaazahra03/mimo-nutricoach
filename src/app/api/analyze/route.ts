@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const MIMO_API_URL = process.env.MIMO_API_URL || "http://150.109.4.149:20128";
+const MIMO_API_URL = process.env.MIMO_API_URL || "https://token-plan-sgp.xiaomimimo.com/v1";
 const MIMO_API_KEY = process.env.MIMO_API_KEY || "";
 
 const SYSTEM_PROMPT = `Kamu adalah MiMo NutriCoach, ahli nutrisi makanan Indonesia. Tugasmu: analisis makanan dan berikan data nutrisi lengkap dalam format JSON.

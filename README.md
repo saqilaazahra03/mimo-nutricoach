@@ -126,7 +126,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `MIMO_API_URL` | 9Router gateway endpoint | `http://150.109.4.149:20128` |
+| `MIMO_API_URL` | MiMo API endpoint | `https://token-plan-sgp.xiaomimimo.com/v1` |
 | `MIMO_API_KEY` | API key (if required) | — |
 
 ---

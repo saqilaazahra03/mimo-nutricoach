@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import Image from "next/image";
 
 // --- Types ---
 interface NutrientDetail {
@@ -33,16 +34,7 @@ interface NutritionResult {
   score: number;
 }
 
-// --- Icons (inline SVG) ---
-function LeafIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 1c1 2 2 4.5 1 8-1 3.5-3.5 5.5-6.5 7" />
-      <path d="M11.7 13.5c-2-2.5-4.5-3.5-6-3.5 0 3 1 6.5 4 8.5 1.5 1 3.5 1.5 5.5 1" />
-    </svg>
-  );
-}
-
+// --- Icons ---
 function CameraIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -58,14 +50,6 @@ function TypeIcon({ className }: { className?: string }) {
       <polyline points="4 7 4 4 20 4 20 7" />
       <line x1="9" y1="20" x2="15" y2="20" />
       <line x1="12" y1="4" x2="12" y2="20" />
-    </svg>
-  );
-}
-
-function SparkleIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2L14 9L21 9L15.5 13.5L17.5 21L12 16.5L6.5 21L8.5 13.5L3 9L10 9Z" />
     </svg>
   );
 }
@@ -126,38 +110,77 @@ function XIcon({ className }: { className?: string }) {
   );
 }
 
-// --- Header ---
-function Header() {
+function ChevronDown({ className }: { className?: string }) {
   return (
-    <header className="text-center pt-16 pb-10 px-4">
-      <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium mb-6">
-        <SparkleIcon className="w-3.5 h-3.5" />
-        Powered by MiMo AI
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  );
+}
+
+// --- Hero Section ---
+function HeroSection({
+  onModeSelect,
+}: {
+  onModeSelect: (mode: "text" | "image") => void;
+}) {
+  return (
+    <section className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/hero.jpg"
+          alt="Indonesian cuisine spread"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+        {/* Gradient overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
       </div>
-      <h1 className="text-5xl sm:text-6xl font-bold text-white mb-4 tracking-tight">
-        MiMo{" "}
-        <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
-          NutriCoach
-        </span>
-      </h1>
-      <p className="text-slate-400 text-lg max-w-lg mx-auto leading-relaxed">
-        AI nutrition analyzer for Indonesian food. Upload a photo or type a meal — get instant health insights.
-      </p>
-      <div className="flex items-center justify-center gap-6 mt-8 text-sm text-slate-500">
-        <div className="flex items-center gap-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-          Photo Analysis
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-cyan-500" />
-          Health Score
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-violet-500" />
-          Smart Suggestions
+
+      {/* Content */}
+      <div className="relative z-10 text-center px-4 max-w-3xl mx-auto">
+        <h1 className="text-6xl sm:text-7xl md:text-8xl font-black uppercase tracking-wide text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.5)] mb-6">
+          MIMO
+          <br />
+          NUTRICOACH
+        </h1>
+        <p className="text-sm sm:text-base uppercase tracking-[0.2em] text-white/80 drop-shadow-md mb-10 font-medium">
+          AI NUTRITION ANALYZER FOR INDONESIAN FOOD.
+          <br />
+          UPLOAD A PHOTO OR TYPE A MEAL, GET INSTANT HEALTH INSIGHTS.
+        </p>
+        <div className="flex items-center justify-center gap-4">
+          <button
+            onClick={() => onModeSelect("text")}
+            className="px-8 py-3.5 bg-white text-black font-bold uppercase tracking-wider text-sm rounded-full hover:bg-white/90 transition-all hover:scale-105 active:scale-95 shadow-lg"
+          >
+            <span className="flex items-center gap-2">
+              <TypeIcon className="w-4 h-4" />
+              TYPE FOOD
+            </span>
+          </button>
+          <button
+            onClick={() => onModeSelect("image")}
+            className="px-8 py-3.5 bg-white text-black font-bold uppercase tracking-wider text-sm rounded-full hover:bg-white/90 transition-all hover:scale-105 active:scale-95 shadow-lg"
+          >
+            <span className="flex items-center gap-2">
+              <CameraIcon className="w-4 h-4" />
+              UPLOAD PHOTO
+            </span>
+          </button>
         </div>
       </div>
-    </header>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40">
+        <span className="text-xs uppercase tracking-widest">Scroll</span>
+        <ChevronDown className="w-5 h-5 animate-bounce" />
+      </div>
+    </section>
   );
 }
 
@@ -165,11 +188,13 @@ function Header() {
 function FoodInput({
   onAnalyze,
   loading,
+  initialMode,
 }: {
   onAnalyze: (input: { type: "text" | "image"; value: string }) => void;
   loading: boolean;
+  initialMode: "text" | "image";
 }) {
-  const [mode, setMode] = useState<"text" | "image">("text");
+  const [mode, setMode] = useState<"text" | "image">(initialMode);
   const [textInput, setTextInput] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageBase64, setImageBase64] = useState<string | null>(null);
@@ -215,15 +240,20 @@ function FoodInput({
   ];
 
   return (
-    <div className="max-w-2xl mx-auto px-4 mb-12">
+    <div className="max-w-2xl mx-auto px-4 py-12">
+      <div className="text-center mb-8">
+        <p className="text-[var(--accent)] text-sm uppercase tracking-[0.15em] font-medium mb-2">Analyze Your Meal</p>
+        <h2 className="text-2xl font-bold text-white">What are you eating today?</h2>
+      </div>
+
       {/* Mode Toggle */}
-      <div className="flex gap-3 mb-5">
+      <div className="flex gap-3 mb-6">
         <button
           onClick={() => setMode("text")}
           className={`flex-1 flex items-center justify-center gap-2.5 py-3.5 rounded-2xl font-medium transition-all duration-300 ${
             mode === "text"
-              ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 shadow-lg shadow-emerald-500/5"
-              : "glass-light text-slate-400 hover:text-slate-300 hover:border-slate-600/50"
+              ? "bg-[var(--accent)]/15 text-[var(--accent)] border border-[var(--accent)]/25"
+              : "glass-light text-slate-400 hover:text-slate-300"
           }`}
           disabled={loading}
         >
@@ -234,8 +264,8 @@ function FoodInput({
           onClick={() => setMode("image")}
           className={`flex-1 flex items-center justify-center gap-2.5 py-3.5 rounded-2xl font-medium transition-all duration-300 ${
             mode === "image"
-              ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 shadow-lg shadow-emerald-500/5"
-              : "glass-light text-slate-400 hover:text-slate-300 hover:border-slate-600/50"
+              ? "bg-[var(--accent)]/15 text-[var(--accent)] border border-[var(--accent)]/25"
+              : "glass-light text-slate-400 hover:text-slate-300"
           }`}
           disabled={loading}
         >
@@ -247,33 +277,31 @@ function FoodInput({
       {/* Text Input */}
       {mode === "text" && (
         <div className="fade-up">
-          <div className="relative group">
+          <div className="relative">
             <input
               type="text"
               value={textInput}
               onChange={(e) => setTextInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
               placeholder="e.g., Nasi goreng ayam 1 porsi"
-              className="w-full glass rounded-2xl px-5 py-4 pr-28 text-lg text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/30 focus:ring-1 focus:ring-emerald-500/20 transition-all"
+              className="w-full glass rounded-2xl px-5 py-4 pr-28 text-lg text-white placeholder-slate-500 focus:outline-none focus:border-[var(--accent)]/30 transition-all"
               disabled={loading}
             />
             <button
               onClick={handleSubmit}
               disabled={loading || !textInput.trim()}
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-slate-700/50 disabled:text-slate-500 text-white font-semibold px-5 py-2.5 rounded-xl transition-all flex items-center gap-1.5"
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-[var(--accent)] hover:bg-[var(--accent-light)] disabled:bg-slate-700/50 disabled:text-slate-500 text-black font-semibold px-5 py-2.5 rounded-xl transition-all flex items-center gap-1.5"
             >
               Analyze
               <ArrowRightIcon className="w-4 h-4" />
             </button>
           </div>
-
-          {/* Sample Chips */}
           <div className="mt-4 flex flex-wrap gap-2">
             {sampleFoods.map((food) => (
               <button
                 key={food}
                 onClick={() => setTextInput(food)}
-                className="chip text-sm px-4 py-2 rounded-xl bg-slate-800/60 text-slate-400 border border-slate-700/50 transition-all"
+                className="chip text-sm px-4 py-2 rounded-xl bg-slate-800/60 text-slate-400 border border-slate-700/50"
                 disabled={loading}
               >
                 {food}
@@ -295,17 +323,9 @@ function FoodInput({
           >
             {imagePreview ? (
               <div className="relative">
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="max-h-56 mx-auto rounded-xl shadow-2xl"
-                />
+                <img src={imagePreview} alt="Preview" className="max-h-56 mx-auto rounded-xl shadow-2xl" />
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setImagePreview(null);
-                    setImageBase64(null);
-                  }}
+                  onClick={(e) => { e.stopPropagation(); setImagePreview(null); setImageBase64(null); }}
                   className="absolute top-3 right-3 bg-black/60 hover:bg-red-500/80 text-white w-8 h-8 rounded-full flex items-center justify-center transition-all backdrop-blur-sm"
                 >
                   <XIcon className="w-4 h-4" />
@@ -316,12 +336,8 @@ function FoodInput({
                 <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-slate-800/80 flex items-center justify-center">
                   <UploadIcon className="w-7 h-7 text-slate-500" />
                 </div>
-                <p className="text-slate-300 text-lg font-medium mb-1">
-                  Drop your food photo here
-                </p>
-                <p className="text-slate-500 text-sm">
-                  or click to browse — JPG, PNG, WebP
-                </p>
+                <p className="text-slate-300 text-lg font-medium mb-1">Drop your food photo here</p>
+                <p className="text-slate-500 text-sm">or click to browse — JPG, PNG, WebP</p>
               </div>
             )}
             <input
@@ -329,16 +345,13 @@ function FoodInput({
               type="file"
               accept="image/*"
               className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) handleFile(file);
-              }}
+              onChange={(e) => { const file = e.target.files?.[0]; if (file) handleFile(file); }}
             />
           </div>
           <button
             onClick={handleSubmit}
             disabled={loading || !imageBase64}
-            className="w-full mt-4 bg-emerald-500 hover:bg-emerald-400 disabled:bg-slate-700/50 disabled:text-slate-500 text-white font-semibold py-4 rounded-2xl transition-all text-lg flex items-center justify-center gap-2"
+            className="w-full mt-4 bg-[var(--accent)] hover:bg-[var(--accent-light)] disabled:bg-slate-700/50 disabled:text-slate-500 text-black font-semibold py-4 rounded-2xl transition-all text-lg flex items-center justify-center gap-2"
           >
             <CameraIcon className="w-5 h-5" />
             Analyze Photo
@@ -353,24 +366,14 @@ function FoodInput({
 function LoadingState() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-20 text-center fade-up">
-      <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-emerald-500/10 mb-8 shimmer">
-        <LeafIcon className="w-10 h-10 text-emerald-400" />
+      <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-[var(--accent)]/10 mb-8 shimmer">
+        <span className="text-4xl">🥗</span>
       </div>
-      <h3 className="text-xl font-semibold text-white mb-2">
-        Analyzing your food...
-      </h3>
-      <p className="text-slate-400 max-w-sm mx-auto">
-        MiMo is identifying ingredients and calculating nutritional content
-      </p>
+      <h3 className="text-xl font-semibold text-white mb-2">Analyzing your food...</h3>
+      <p className="text-slate-400 max-w-sm mx-auto">MiMo is identifying ingredients and calculating nutritional content</p>
       <div className="flex justify-center gap-1.5 mt-8">
         {[0, 1, 2].map((i) => (
-          <div
-            key={i}
-            className="w-2 h-2 rounded-full bg-emerald-500/60"
-            style={{
-              animation: `pulse 1.5s ease-in-out ${i * 0.2}s infinite`,
-            }}
-          />
+          <div key={i} className="w-2 h-2 rounded-full bg-[var(--accent)]/60" style={{ animation: `pulse 1.5s ease-in-out ${i * 0.2}s infinite` }} />
         ))}
       </div>
     </div>
@@ -382,12 +385,9 @@ function ScoreCircle({ score }: { score: number }) {
   const radius = 44;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (score / 100) * circumference;
-  const color =
-    score >= 75 ? "#10b981" : score >= 50 ? "#eab308" : score >= 25 ? "#f97316" : "#ef4444";
-  const label =
-    score >= 75 ? "Healthy" : score >= 50 ? "Moderate" : score >= 25 ? "Caution" : "Unhealthy";
-  const bg =
-    score >= 75 ? "rgba(16,185,129,0.1)" : score >= 50 ? "rgba(234,179,8,0.1)" : score >= 25 ? "rgba(249,115,22,0.1)" : "rgba(239,68,68,0.1)";
+  const color = score >= 75 ? "#10b981" : score >= 50 ? "#eab308" : score >= 25 ? "#f97316" : "#ef4444";
+  const label = score >= 75 ? "Healthy" : score >= 50 ? "Moderate" : score >= 25 ? "Caution" : "Unhealthy";
+  const bg = score >= 75 ? "rgba(16,185,129,0.1)" : score >= 50 ? "rgba(234,179,8,0.1)" : score >= 25 ? "rgba(249,115,22,0.1)" : "rgba(239,68,68,0.1)";
 
   return (
     <div className="flex flex-col items-center">
@@ -395,12 +395,7 @@ function ScoreCircle({ score }: { score: number }) {
         <div className="absolute inset-0 rounded-full" style={{ background: bg }} />
         <svg className="w-full h-full -rotate-90 relative" viewBox="0 0 100 100">
           <circle cx="50" cy="50" r={radius} fill="none" stroke="rgba(148,163,184,0.08)" strokeWidth="6" />
-          <circle
-            cx="50" cy="50" r={radius} fill="none"
-            stroke={color} strokeWidth="6" strokeLinecap="round"
-            strokeDasharray={circumference} strokeDashoffset={offset}
-            className="score-ring"
-          />
+          <circle cx="50" cy="50" r={radius} fill="none" stroke={color} strokeWidth="6" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={offset} className="score-ring" />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <span className="text-3xl font-bold" style={{ color }}>{score}</span>
@@ -412,39 +407,23 @@ function ScoreCircle({ score }: { score: number }) {
 }
 
 // --- Nutrient Row ---
-function NutrientRow({
-  label,
-  amount,
-  unit,
-  percentDV,
-  status,
-}: {
-  label: string;
-  amount: number;
-  unit: string;
-  percentDV: number;
-  status: string;
-}) {
+function NutrientRow({ label, amount, unit, percentDV, status }: { label: string; amount: number; unit: string; percentDV: number; status: string }) {
   const clampedPercent = Math.min(percentDV, 100);
   const statusLabel = { good: "Good", moderate: "Fair", warning: "Watch", danger: "High" }[status] || "Fair";
-  const pillClass = `pill-${status}`;
 
   return (
     <div className="flex items-center gap-4 py-3 group">
       <div className="w-24 text-sm text-slate-400 shrink-0 group-hover:text-slate-300 transition-colors">{label}</div>
       <div className="flex-1">
         <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
-          <div
-            className={`h-full rounded-full bar-${status} nutrition-bar`}
-            style={{ "--bar-width": `${clampedPercent}%` } as React.CSSProperties}
-          />
+          <div className={`h-full rounded-full bar-${status} nutrition-bar`} style={{ width: `${clampedPercent}%` }} />
         </div>
       </div>
       <div className="w-20 text-right text-sm font-medium text-slate-300 shrink-0 tabular-nums">
         {amount % 1 === 0 ? amount : amount.toFixed(1)}
         <span className="text-slate-500 ml-1 text-xs">{unit}</span>
       </div>
-      <div className={`w-14 text-center shrink-0 text-[11px] font-medium px-2 py-0.5 rounded-full ${pillClass}`}>
+      <div className={`w-14 text-center shrink-0 text-[11px] font-medium px-2 py-0.5 rounded-full pill-${status}`}>
         {statusLabel}
       </div>
     </div>
@@ -454,26 +433,17 @@ function NutrientRow({
 // --- Result ---
 function NutritionResult({ data }: { data: NutritionResult }) {
   const nutrientLabels: Record<string, string> = {
-    protein: "Protein",
-    fat: "Fat",
-    carbs: "Carbs",
-    fiber: "Fiber",
-    sugar: "Sugar",
-    sodium: "Sodium",
-    cholesterol: "Cholesterol",
-    vitaminA: "Vitamin A",
-    vitaminC: "Vitamin C",
-    calcium: "Calcium",
-    iron: "Iron",
+    protein: "Protein", fat: "Fat", carbs: "Carbs", fiber: "Fiber",
+    sugar: "Sugar", sodium: "Sodium", cholesterol: "Cholesterol",
+    vitaminA: "Vitamin A", vitaminC: "Vitamin C", calcium: "Calcium", iron: "Iron",
   };
 
   return (
     <div className="max-w-2xl mx-auto px-4 pb-20">
-      {/* Hero Card */}
       <div className="glass rounded-3xl p-6 sm:p-8 mb-4 fade-up fade-up-1">
         <div className="flex items-start justify-between flex-wrap gap-6">
           <div>
-            <p className="text-slate-500 text-sm font-medium uppercase tracking-wider mb-1">Analysis Result</p>
+            <p className="text-[var(--accent)] text-sm font-medium uppercase tracking-wider mb-1">Analysis Result</p>
             <h2 className="text-2xl sm:text-3xl font-bold text-white">{data.foodName}</h2>
             <p className="text-slate-400 mt-1">{data.portion}</p>
             <div className="flex items-baseline gap-2 mt-4">
@@ -485,36 +455,21 @@ function NutritionResult({ data }: { data: NutritionResult }) {
         </div>
       </div>
 
-      {/* Nutrients */}
       <div className="glass rounded-3xl p-6 sm:p-8 mb-4 fade-up fade-up-2">
         <h3 className="text-base font-semibold text-white mb-5 flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-            <LeafIcon className="w-4 h-4 text-emerald-400" />
-          </div>
-          Nutrient Breakdown
+          <span className="text-lg">📊</span> Nutrient Breakdown
         </h3>
         <div className="divide-y divide-slate-800/50">
           {Object.entries(data.nutrients).map(([key, val]) => (
-            <NutrientRow
-              key={key}
-              label={nutrientLabels[key] || key}
-              amount={val.amount}
-              unit={val.unit}
-              percentDV={val.percentDV}
-              status={val.status}
-            />
+            <NutrientRow key={key} label={nutrientLabels[key] || key} amount={val.amount} unit={val.unit} percentDV={val.percentDV} status={val.status} />
           ))}
         </div>
       </div>
 
-      {/* Health Impact */}
       {data.healthImpact.length > 0 && (
         <div className="glass rounded-3xl p-6 sm:p-8 mb-4 fade-up fade-up-3">
           <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-              <CheckIcon className="w-4 h-4 text-emerald-400" />
-            </div>
-            Health Benefits
+            <CheckIcon className="w-5 h-5 text-emerald-400" /> Health Benefits
           </h3>
           <ul className="space-y-3">
             {data.healthImpact.map((item, i) => (
@@ -527,14 +482,10 @@ function NutritionResult({ data }: { data: NutritionResult }) {
         </div>
       )}
 
-      {/* Warnings */}
       {data.warnings.length > 0 && (
         <div className="rounded-3xl p-6 sm:p-8 mb-4 fade-up fade-up-3" style={{ background: "rgba(239,68,68,0.04)", border: "1px solid rgba(239,68,68,0.1)" }}>
           <h3 className="text-base font-semibold text-red-400 mb-4 flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-red-500/10 flex items-center justify-center">
-              <AlertIcon className="w-4 h-4 text-red-400" />
-            </div>
-            Warnings
+            <AlertIcon className="w-5 h-5 text-red-400" /> Warnings
           </h3>
           <ul className="space-y-3">
             {data.warnings.map((item, i) => (
@@ -547,19 +498,15 @@ function NutritionResult({ data }: { data: NutritionResult }) {
         </div>
       )}
 
-      {/* Suggestions */}
       {data.suggestions.length > 0 && (
-        <div className="rounded-3xl p-6 sm:p-8 fade-up fade-up-4" style={{ background: "rgba(59,130,246,0.04)", border: "1px solid rgba(59,130,246,0.1)" }}>
-          <h3 className="text-base font-semibold text-blue-400 mb-4 flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-blue-500/10 flex items-center justify-center">
-              <LightbulbIcon className="w-4 h-4 text-blue-400" />
-            </div>
-            Suggestions
+        <div className="rounded-3xl p-6 sm:p-8 fade-up fade-up-4" style={{ background: "rgba(212,168,83,0.04)", border: "1px solid rgba(212,168,83,0.1)" }}>
+          <h3 className="text-base font-semibold text-[var(--accent)] mb-4 flex items-center gap-2">
+            <LightbulbIcon className="w-5 h-5 text-[var(--accent)]" /> Suggestions
           </h3>
           <ul className="space-y-3">
             {data.suggestions.map((item, i) => (
               <li key={i} className="flex items-start gap-3 text-slate-300 text-sm">
-                <ArrowRightIcon className="w-4 h-4 text-blue-400/60 shrink-0 mt-0.5" />
+                <ArrowRightIcon className="w-4 h-4 text-[var(--accent)]/60 shrink-0 mt-0.5" />
                 <span>{item}</span>
               </li>
             ))}
@@ -575,6 +522,16 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<NutritionResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [activeMode, setActiveMode] = useState<"text" | "image">("text");
+  const [showInput, setShowInput] = useState(false);
+
+  const handleModeSelect = (mode: "text" | "image") => {
+    setActiveMode(mode);
+    setShowInput(true);
+    setTimeout(() => {
+      document.getElementById("input-section")?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
 
   const handleAnalyze = async (input: { type: "text" | "image"; value: string }) => {
     setLoading(true);
@@ -603,33 +560,26 @@ export default function Home() {
   };
 
   return (
-    <main className="bg-mesh min-h-screen">
-      <Header />
+    <main>
+      <HeroSection onModeSelect={handleModeSelect} />
 
-      {error && (
-        <div className="max-w-2xl mx-auto px-4 mb-6 fade-up">
-          <div className="rounded-2xl px-5 py-4 flex items-center gap-3" style={{ background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.15)" }}>
-            <AlertIcon className="w-5 h-5 text-red-400 shrink-0" />
-            <span className="text-red-300 text-sm">{error}</span>
+      <div id="input-section" className="bg-[var(--bg-dark)] min-h-screen">
+        {error && (
+          <div className="max-w-2xl mx-auto px-4 pt-8 fade-up">
+            <div className="rounded-2xl px-5 py-4 flex items-center gap-3" style={{ background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.15)" }}>
+              <AlertIcon className="w-5 h-5 text-red-400 shrink-0" />
+              <span className="text-red-300 text-sm">{error}</span>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <FoodInput onAnalyze={handleAnalyze} loading={loading} />
+        {(showInput || result) && (
+          <FoodInput onAnalyze={handleAnalyze} loading={loading} initialMode={activeMode} />
+        )}
 
-      {loading && <LoadingState />}
-      {result && !loading && <NutritionResult data={result} />}
-
-      {/* Footer */}
-      {!result && !loading && (
-        <footer className="text-center text-slate-600 text-sm pb-12 mt-8">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <LeafIcon className="w-4 h-4 text-emerald-500/40" />
-            <span>MiMo NutriCoach</span>
-          </div>
-          <p>Focused on Indonesian cuisine</p>
-        </footer>
-      )}
+        {loading && <LoadingState />}
+        {result && !loading && <NutritionResult data={result} />}
+      </div>
     </main>
   );
 }

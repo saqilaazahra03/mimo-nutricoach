@@ -87,7 +87,9 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Call MiMo via 9Router
+    const model = type === "image" ? "mimo-v2-omni" : "mimo-v2-pro";
+
+    // Call MiMo
     const response = await fetch(`${MIMO_API_URL}/v1/chat/completions`, {
       method: "POST",
       headers: {
@@ -95,7 +97,7 @@ export async function POST(request: NextRequest) {
         ...(MIMO_API_KEY ? { Authorization: `Bearer ${MIMO_API_KEY}` } : {}),
       },
       body: JSON.stringify({
-        model: "mimo-v2-pro",
+        model,
         messages,
         temperature: 0.3,
         max_tokens: 2000,

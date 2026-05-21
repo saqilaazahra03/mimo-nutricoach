@@ -1,84 +1,140 @@
 @import "tailwindcss";
 
-:root {
-  --bg-primary: #0f172a;
-  --bg-secondary: #1e293b;
-  --bg-card: #1e293b;
-  --accent-green: #22c55e;
-  --accent-yellow: #eab308;
-  --accent-red: #ef4444;
-  --accent-blue: #3b82f6;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #0a0f1a;
+  color: #e2e8f0;
+  font-family: var(--font-sans);
+  min-height: 100vh;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
+/* Animated gradient background */
+.bg-mesh {
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(168, 85, 247, 0.04) 0%, transparent 60%),
+    #0a0f1a;
 }
-::-webkit-scrollbar-track {
-  background: var(--bg-primary);
+
+/* Glassmorphism card */
+.glass {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(148, 163, 184, 0.08);
 }
-::-webkit-scrollbar-thumb {
-  background: #475569;
-  border-radius: 3px;
+
+.glass-light {
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(148, 163, 184, 0.06);
 }
 
 /* Nutrition bar animation */
 @keyframes fillBar {
   from { width: 0; }
+  to { width: var(--bar-width); }
 }
 
 .nutrition-bar {
-  animation: fillBar 0.8s ease-out forwards;
+  animation: fillBar 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* Glow effect */
-.glow-green {
-  box-shadow: 0 0 20px rgba(34, 197, 94, 0.15);
-}
-.glow-yellow {
-  box-shadow: 0 0 20px rgba(234, 179, 8, 0.15);
-}
-.glow-red {
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.15);
+/* Score ring animation */
+@keyframes drawRing {
+  from { stroke-dashoffset: 282.74; }
 }
 
-/* Pulse animation for loading */
-@keyframes pulse-slow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-.animate-pulse-slow {
-  animation: pulse-slow 2s ease-in-out infinite;
+.score-ring {
+  animation: drawRing 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* Card hover */
-.card-hover {
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+/* Fade in animation */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* File drop zone */
+.fade-up {
+  animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.fade-up-1 { animation-delay: 0.05s; }
+.fade-up-2 { animation-delay: 0.1s; }
+.fade-up-3 { animation-delay: 0.15s; }
+.fade-up-4 { animation-delay: 0.2s; }
+
+/* Shimmer loading */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(16, 185, 129, 0.06) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.2);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.4);
+}
+
+/* Status pill colors */
+.pill-good { background: rgba(16, 185, 129, 0.12); color: #34d399; }
+.pill-moderate { background: rgba(234, 179, 8, 0.12); color: #fbbf24; }
+.pill-warning { background: rgba(249, 115, 22, 0.12); color: #fb923c; }
+.pill-danger { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+
+/* Bar colors */
+.bar-good { background: linear-gradient(90deg, #10b981, #34d399); }
+.bar-moderate { background: linear-gradient(90deg, #eab308, #fbbf24); }
+.bar-warning { background: linear-gradient(90deg, #f97316, #fb923c); }
+.bar-danger { background: linear-gradient(90deg, #ef4444, #f87171); }
+
+/* Drop zone */
 .drop-zone {
-  border: 2px dashed #475569;
-  transition: border-color 0.2s, background 0.2s;
+  border: 2px dashed rgba(148, 163, 184, 0.15);
+  transition: all 0.3s ease;
 }
 .drop-zone:hover,
 .drop-zone.drag-over {
-  border-color: #22c55e;
-  background: rgba(34, 197, 94, 0.05);
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.03);
+}
+
+/* Chip button */
+.chip {
+  transition: all 0.2s ease;
+}
+.chip:hover {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #34d399;
 }
